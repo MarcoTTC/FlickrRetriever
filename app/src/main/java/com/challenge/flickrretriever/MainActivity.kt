@@ -68,11 +68,13 @@ fun searchBarPreview() {
 }
 
 @Composable
-fun thumbItem(thumb: Thumb ) {
+fun thumbItem(modifier: Modifier = Modifier, thumb: Thumb ) {
     AsyncImage(
+        modifier = modifier,
         model = ImageRequest.Builder(LocalContext.current)
             .data(thumb.uri)
             .build(),
+        alignment = Alignment.CenterStart,
         placeholder = painterResource(id = R.drawable.placeholder),
         contentDescription = ""
     )
@@ -83,7 +85,7 @@ fun thumbItem(thumb: Thumb ) {
 fun thumbItemPreview() {
     FlickrRetrieverTheme {
         thumbItem(
-            mockThumb
+            thumb = mockThumb
         )
     }
 }
@@ -95,7 +97,17 @@ fun thumbsGridLayout(modifier: Modifier = Modifier, thumbList: List<Thumb> = emp
         modifier = modifier
     ) {
         items(thumbList.size) { index ->
-            thumbItem(thumbList[index])
+            thumbItem(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(
+                        top = 4.dp,
+                        bottom = 4.dp,
+                        start = 4.dp,
+                        end = 4.dp
+                    ),
+                thumbList[index]
+            )
         }
     }
 }
