@@ -1,5 +1,6 @@
 package com.challenge.flickrretriever
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,8 +13,12 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.challenge.flickrretriever.model.Thumb
 import com.challenge.flickrretriever.ui.theme.FlickrRetrieverTheme
 import com.challenge.flickrretriever.viewmodel.FlickrRetrieverViewModel
@@ -56,8 +61,29 @@ fun searchBarPreview() {
 }
 
 @Composable
-fun thumbItem(thumb: Thumb) {
+fun thumbItem(thumb: Thumb ) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(thumb.uri)
+            .build(),
+        placeholder = painterResource(id = R.drawable.placeholder),
+        contentDescription = ""
+    )
+}
 
+@Preview(showBackground = true)
+@Composable
+fun thumbItemPreview() {
+    FlickrRetrieverTheme {
+        thumbItem(
+            Thumb(
+                uri = Uri.parse(
+                    "https://live.staticflickr.com/65535/53769361124_4f4e902d92_m.jpg"
+                ),
+                contentDescription = ""
+            )
+        )
+    }
 }
 
 @Composable
@@ -72,10 +98,19 @@ fun thumbsGridLayout(modifier: Modifier = Modifier, thumbList: List<Thumb> = emp
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun thumbsGridLayoutPreview() {
     FlickrRetrieverTheme {
-        thumbsGridLayout()
+        thumbsGridLayout(
+            thumbList = (1..15).map {
+                Thumb(
+                    uri = Uri.parse(
+                        "https://live.staticflickr.com/65535/53769361124_4f4e902d92_m.jpg"
+                    ),
+                    contentDescription = ""
+                )
+            }
+        )
     }
 }

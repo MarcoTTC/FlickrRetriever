@@ -1,5 +1,8 @@
 package com.challenge.flickrretriever.model
 
-import java.net.URL
+import android.net.Uri
 
-data class Thumb(val url: URL)
+data class Thumb(
+    val uri: Uri,
+    val contentDescription: String
+)
